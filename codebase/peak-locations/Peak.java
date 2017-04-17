@@ -74,7 +74,7 @@ public class Peak {
 
 			String tmp = key.toString().toLowerCase();
 
-			int sum = 1;
+			int sum = 0;
 			for (IntWritable val : values) {
 				sum += val.get();
 			}
