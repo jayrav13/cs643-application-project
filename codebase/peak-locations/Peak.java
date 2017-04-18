@@ -35,26 +35,14 @@ public class Peak {
 		// Map function
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
-/*
-			// Convert value to StringTokenizer.
-			StringTokenizer itr = new StringTokenizer(value.toString());
-
-			// Iterate through StringTokenizer.
-			while (itr.hasMoreTokens()) {
-
-				context.write(new Text(filepath + "/" + word.toString()), one);
-
-			}
-*/
-
 			// Get the current file's path name.
 			String filepath = ((FileSplit) context.getInputSplit()).getPath().toString();
 
-			StringTokenizer itr = new StringTokenizer(value.toString(), ",");
+			String[] row = value.toString().split(",");
 
-			while(itr.hasMoreTokens()) {
-				word.set(itr.nextToken());
-				break;
+			if(!row[0].contains("Date") && row.length == 6) {
+				// word.set( row[0] + "," + row[3] );
+				word.set( Float.toString( Math.round( Float.parseFloat(row[1]) * (float) 100.0 ) / (float) 100.0 ) + "," + Float.toString( Math.round( Float.parseFloat(row[2]) * (float) 100.0 ) / (float) 100.0 ) );
 			}
 
 			context.write(word, one);
