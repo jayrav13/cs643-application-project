@@ -16,7 +16,7 @@ for i in range(1, len(data)):
 	element = data[i].split(",")
 	params = {
 		"address": element[2],
-		"key": "AIzaSyDdRxPr_rgoI-z-XVsf94MrM2faF7HV_Jo"
+		"key": ""
 	}
 	response = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=params)
 
