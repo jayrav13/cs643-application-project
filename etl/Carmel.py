@@ -16,24 +16,23 @@ for i in range(1, len(data)):
 	element = data[i].split(",")
 	params = {
 		"address": element[2],
-		"key": ""
+		"benchmark": "9",
+		"format": "json"
 	}
-	response = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=params)
+	response = requests.get("https://geocoding.geo.census.gov/geocoder/locations/onelineaddress", params=params)
 
 	result = response.json()
 
-	if len(result["results"]) == 0:
+	if len(result["result"]) == 0:
 		h.write(data[i])
 		print "ERROR: " + element[2]
 		continue
 
 	datetime_object = datetime.strptime(element[0] + " " + element[1], '%m/%d/%Y %H:%M')
 
-	g.write( "\"" + datetime_object.strftime('%m/%d/%Y %H:%M:%S') + "\"," + str(result["results"][0]["geometry"]["location"]["lat"]) + "," + str(result["results"][0]["geometry"]["location"]["lng"]) + ",\"B00256\",\"Carmel\",\"FHV\"\n")
+	g.write( "\"" + datetime_object.strftime('%m/%d/%Y %H:%M:%S') + "\"," + str(result["result"]["addressMatches"][0]["coordinates"]["y"]) + "," + str(result["result"]["addressMatches"][0]["coordinates"]["x"]) + ",\"B00256\",\"Carmel\",\"FHV\"\n")
 
 	print "SUCCESS: " + element[2]
 
 g.close()
 h.close()
-
-
