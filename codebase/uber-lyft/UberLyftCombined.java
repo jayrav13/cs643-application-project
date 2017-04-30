@@ -40,9 +40,9 @@ public class UberLyftCombined {
 
       String[] row = value.toString().split(",");
 
-      if(!row[0].contains("Date") && row[4].contains("Uber") && row.length == 6){
+      if(!row[0].contains("id") && row[1].contains("Uber") && row.length == 9){
         // word.set (row[0] - time)
-        word.set((row[0].split(" ")[0]).substring(1));
+        word.set((row[4].split(" ")[0]));
       }
 
       context.write(word, one);
@@ -88,9 +88,9 @@ public class UberLyftCombined {
 
       String[] row = value.toString().split(",");
 
-      if(!row[0].contains("Date") && row[4].contains("Lyft") && row.length == 6){
+      if(!row[0].contains("id") && row[1].contains("Lyft") && row.length == 9){
         // word.set (row[0] - time)
-        word.set((row[0].split(" ")[0]).substring(1));
+        word.set((row[4].split(" ")[0]));
       }
 
       context.write(word, one);
