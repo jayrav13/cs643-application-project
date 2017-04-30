@@ -1,7 +1,7 @@
 /**
-* UberLyftCombined
+* UberTaxi
 *
-* Compare Uber and Lyft pickups per day
+* Compare Uber and Taxi pickups per day
 **/
 
 // Imports
@@ -21,7 +21,7 @@ import org.apache.hadoop.mapreduce.lib.join.TupleWritable;
 import java.util.regex.Pattern;
 import java.util.*;
 
-public class UberLyftCombined {
+public class UberTaxi {
 
   // Mapper class
   public static class UberMapper extends Mapper<Object, Text, Text, IntWritable>{
@@ -72,7 +72,7 @@ public class UberLyftCombined {
   }
 
   // Mapper class
-  public static class LyftMapper extends Mapper<Object, Text, Text, IntWritable>{
+  public static class TaxiMapper extends Mapper<Object, Text, Text, IntWritable>{
 
     // IntWritable will set the context.write(...)'s value
     private final static IntWritable one = new IntWritable(1);
@@ -88,7 +88,7 @@ public class UberLyftCombined {
 
       String[] row = value.toString().split(",");
 
-      if(!row[0].contains("id") && row[1].contains("Lyft") && row.length == 9){
+      if(!row[0].contains("id") && !row[1].contains("Uber") && !row[1].contains("Lyft") && row.length == 9){
         // word.set (row[0] - time)
         word.set((row[4].split(" ")[0]));
       }
@@ -99,7 +99,7 @@ public class UberLyftCombined {
   }
 
   // Reducer Class
-  public static class LyftReducer extends Reducer<Text,IntWritable,Text,IntWritable> {
+  public static class TaxiReducer extends Reducer<Text,IntWritable,Text,IntWritable> {
 
     // Set up IntWritable
     private IntWritable result = new IntWritable();
@@ -125,9 +125,10 @@ public class UberLyftCombined {
 
 		// Create new config object.
 		Configuration conf = new Configuration();
-    
+
     // Comma separating key and value
     conf.set("mapred.textoutputformat.separator", ", ");
+    
 		/**
 		 *	Uber Job
 		 */
@@ -135,7 +136,7 @@ public class UberLyftCombined {
 		Job job = Job.getInstance(conf, "Uber Daily Count");
 
 		// When creating jar, use this class name.
-		job.setJarByClass(UberLyftCombined.class);
+		job.setJarByClass(UberTaxi.class);
 
 		// Class for mapping.
 		job.setMapperClass(UberMapper.class);
@@ -161,22 +162,22 @@ public class UberLyftCombined {
 		job.waitForCompletion(true);
 
 		/**
-		 *	Lyft Job
+		 *	Taxi Job
 		 */
 		// Set up a new job and give it a name.
-		Job job2 = Job.getInstance(conf, "Lyft Daily Count");
+		Job job2 = Job.getInstance(conf, "Taxi Daily Count");
 
 		// When creating jar, use this class name.
-		job2.setJarByClass(UberLyftCombined.class);
+		job2.setJarByClass(UberTaxi.class);
 
 		// Class for mapping.
-		job2.setMapperClass(LyftMapper.class);
+		job2.setMapperClass(TaxiMapper.class);
 
 		// Class for combining.
-		job2.setCombinerClass(LyftReducer.class);
+		job2.setCombinerClass(TaxiReducer.class);
 
 		// Class for reducing.
-		job2.setReducerClass(LyftReducer.class);
+		job2.setReducerClass(TaxiReducer.class);
 
 		// What object type is the output key.
 		job2.setOutputKeyClass(Text.class);
@@ -187,7 +188,7 @@ public class UberLyftCombined {
 		// Set input and output paths.
 
 		FileInputFormat.addInputPath(job2, new Path(args[0]) );
-		FileOutputFormat.setOutputPath(job2, new Path(args[1] + "/lyft") );
+		FileOutputFormat.setOutputPath(job2, new Path(args[1] + "/taxi") );
 
 		// Exit when done.
 		System.exit(job2.waitForCompletion(true) ? 0 : 1);
