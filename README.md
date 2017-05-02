@@ -1,5 +1,3 @@
-#CS643 Application Project: Uber Pickups in New York City
-
 ## Background
 
 Uber has been a popular, yet controversial company, especially in New York City. After Uber was founded in 2009, there was an evident decrease in the use of traditional NYC taxies and an increase in using Uber via its mobile application. We use pickup data over the course of 6 months from Uber, Lyft, and 8 FHV companies in NYC to determine the following:
