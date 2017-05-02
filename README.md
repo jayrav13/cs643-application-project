@@ -24,4 +24,6 @@ We now need to aggregate this data and the quickest way is to use Hadoop. We use
 Your output should now be an aggregate key-value pair of the specific application, whether it be peak hours, peak locations, nightlife, uber vs taxi, or uber vs lyft.
 
 ### Next Steps
-Once you have aggregated data, load it into a database (PostgreSQL/MySQL/etc.) and use something like [Angular Charts](http://jtblin.github.io/angular-chart.js/) to create beautiful, responsive charts!
+Once you have aggregated data, load it into a database (PostgreSQL/MySQL/etc.) and use something like [Angular Charts](http://jtblin.github.io/angular-chart.js/) to create beautiful, responsive charts.
+
+By Jay Ravaliya and Sapan Patel
