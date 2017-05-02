@@ -1,19 +1,24 @@
+# Import
 import json
 import requests
 import sys
 from datetime import datetime
 import time
 
+# Open raw data file.
 f = open("/home/ubuntu/application-project/data/raw/other-American_B01362.csv", "r")
 data = f.readlines()
 
 result = data[0]
 
+# Prepare output files.
 g = open("/home/ubuntu/application-project/data/result/American.csv", "a+")
 h = open("/home/ubuntu/application-project/data/result/American-Errors", "a+")
 
+# Set up failsafe counter.
 counter = 0
 
+# 
 for i in range(1, len(data)):
 	element = data[i].split(",")
 	params = {
