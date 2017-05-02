@@ -40,6 +40,12 @@ public class Peak {
 
 			String[] row = value.toString().split(",");
 
+			if(!row[0].contains("id")) {
+				String hour = row[4].split(" ")[1].split(":")[0];
+				word.set( row[1] + "-" + hour );
+				context.write(word, one);
+			}
+/*
 			if(!row[0].contains("Date") && row.length == 6) {
 				// word.set( row[0] + "," + row[3] );
 				word.set( Float.toString( Math.round( Float.parseFloat(row[1]) * (float) 1000.0 ) / (float) 1000.0 ) + "," + Float.toString( Math.round( Float.parseFloat(row[2]) * (float) 1000.0 ) / (float) 1000.0 ) );
@@ -47,6 +53,7 @@ public class Peak {
 			if(row[4].contains("Uber")) {
 				context.write(word, one);
 			}
+*/
 		}
 
 	}
